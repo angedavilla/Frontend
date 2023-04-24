@@ -1,0 +1,80 @@
+<div class="container">
+  <h1>Buscar campañas por producto</h1>
+  <div class="form-group">
+    <label for="producto">Nombre del producto:</label>
+    <input type="text" [(ngModel)]="producto" name="producto" class="form-control" placeholder="Nombre del producto"
+      (input)="buscarCampanas()">
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="start">Inicio:</label>
+        <input type="date" id="start" name="start" [(ngModel)]="start" class="form-control">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="end">Fin:</label>
+        <input type="date" id="end" name="end" [(ngModel)]="end" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary mb-3" (click)="buscarCampanasPorFecha(start, end)">Buscar</button>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="form-group">
+      <label class="mr-1" for="file">Archivo:</label>
+      <input type="file" (change)="onFileSelected($event)" accept=".csv,.txt">
+
+    </div>
+
+    <div class="form-group">
+      <label>Campos a cargar:</label>
+      <div class="form-check">
+        <input type="checkbox" formControlName="nombres" id="nombresCheck" class="form-check-input">
+        <label for="nombresCheck" class="form-check-label">Nombres</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" formControlName="apellidos" id="apellidosCheck" class="form-check-input">
+        <label for="apellidosCheck" class="form-check-label">Apellidos</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" formControlName="telefonos" id="telefonosCheck" class="form-check-input">
+        <label for="telefonosCheck" class="form-check-label">Teléfonos</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" formControlName="direcciones" id="direccionesCheck" class="form-check-input">
+        <label for="direccionesCheck" class="form-check-label">Direcciones</label>
+      </div>
+    </div>
+
+    <button class="btn btn-primary mb-3" type="submit" [disabled]="!archivoSeleccionadoValido">Cargar</button>
+
+  </form>
+
+  <button class="btn btn-primary" (click)="buscarCampanas()">Buscar</button>
+
+  <div *ngIf="campanas && campanas.length > 0" class="mt-4">
+    <h2>Resultados de la búsqueda:</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Teléfono</th>
+          <th>Dirección</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let campana of campanas">
+          <td>{{campana.nombres}}</td>
+          <td>{{campana.apellidos}}</td>
+          <td>{{campana.telefono}}</td>
+          <td>{{campana.direccion}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
